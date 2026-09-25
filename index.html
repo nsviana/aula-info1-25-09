@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 25/09 - Programa&ccedil;&atilde;o para Web Front</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef5f2;
+      --text: #18212f;
+      --muted: #5a6678;
+      --primary: #1f7a4d;
+      --primary-dark: #135c39;
+      --accent: #1f5f9f;
+      --border: #d9e2ec;
+      --shadow: 0 12px 32px rgba(24, 33, 47, 0.10);
+      --code-bg: #101827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, #e9f2ee 0%, rgba(233, 242, 238, 0) 360px),
+        var(--bg);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 48px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: 32px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.18;
+    }
+
+    h1 {
+      max-width: 780px;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+    }
+
+    .hero-main p {
+      max-width: 760px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 14px;
+      padding: 24px;
+      align-content: center;
+      background: var(--surface-soft);
+    }
+
+    .info-item {
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(31, 122, 77, 0.18);
+    }
+
+    .info-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .info-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .info-value {
+      display: block;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .section-title {
+      margin: 34px 0 14px;
+      font-size: 1.55rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .card h3 {
+      font-size: 1.18rem;
+    }
+
+    .card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: #ffffff;
+      color: var(--primary-dark);
+    }
+
+    .activity {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .preview {
+      min-height: 320px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      border: 0;
+      background: #ffffff;
+    }
+
+    .code-group {
+      display: grid;
+      grid-column: 1 / -1;
+      gap: 12px;
+    }
+
+    .code-title {
+      display: inline-block;
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    pre {
+      max-height: 430px;
+      margin: 0;
+      padding: 16px;
+      overflow: auto;
+      border-radius: 8px;
+      background: var(--code-bg);
+      color: #edf4ff;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+    }
+
+    .challenge {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(280px, 1.15fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .challenge img {
+      display: block;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 14px;
+      border-left: 4px solid var(--accent);
+      background: #edf5ff;
+      color: #27435f;
+      border-radius: 6px;
+    }
+
+    footer {
+      margin-top: 34px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .activity,
+      .challenge {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 18px;
+      }
+
+      .hero-main,
+      .hero-side,
+      .card-body {
+        padding: 18px;
+      }
+
+      pre {
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="titulo-aula">
+      <div class="hero-main">
+        <p class="eyebrow">Programa&ccedil;&atilde;o para Web Front</p>
+        <h1 id="titulo-aula">Aula dia 25/09 - 1o ano de Inform&aacute;tica</h1>
+        <p>
+          Organiza&ccedil;&atilde;o do material da aula de introdu&ccedil;&atilde;o ao CSS, com atividades
+          resolvidas, c&oacute;digo-fonte, pr&eacute;via de execu&ccedil;&atilde;o e desafio para praticar.
+        </p>
+      </div>
+
+      <aside class="hero-side" aria-label="Informacoes da aula">
+        <div class="info-item">
+          <span class="info-label">Turma</span>
+          <span class="info-value">1o ano de Inform&aacute;tica</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Data</span>
+          <span class="info-value">25/09</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Tema</span>
+          <span class="info-value">HTML + CSS</span>
+        </div>
+      </aside>
+    </section>
+
+    <section aria-labelledby="materiais">
+      <h2 class="section-title" id="materiais">Material da Aula</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="card-body">
+            <h3>Slides de Introdu&ccedil;&atilde;o ao CSS</h3>
+            <p>
+              Arquivo PDF usado como material de apoio para a aula de hoje.
+            </p>
+            <div class="actions">
+              <a class="button" href="VIDEO1_1aSemana_SLIDES_17_12_2020_INTRO_CSS_Parte_I_II_III.pdf" target="_blank" rel="noopener">
+                Abrir PDF
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="atividades">
+      <h2 class="section-title" id="atividades">Atividades Corrigidas</h2>
+
+      <article class="card activity">
+        <div class="card-body">
+          <h3>Exemplo 1 - CSS interno</h3>
+          <p>
+            <strong>Enunciado:</strong> criar uma p&aacute;gina HTML simples com o
+            t&iacute;tulo "Poema" e versos em par&aacute;grafos, aplicando estilos CSS dentro
+            do proprio arquivo HTML.
+          </p>
+          <div class="actions">
+            <a class="button" href="codigos/exemplo1/index.html" target="_blank" rel="noopener">Abrir atividade</a>
+          </div>
+          <div class="note">
+            Nesta resolu&ccedil;&atilde;o, o CSS aparece dentro da tag <code>&lt;style&gt;</code>.
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="preview">
+            <iframe title="Previa do Exemplo 1" src="codigos/exemplo1/index.html"></iframe>
+          </div>
+        </div>
+        <div class="card-body code-group">
+          <div>
+            <span class="code-title">HTML com CSS interno</span>
+            <pre><code>&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+   &lt;title&gt;Minha pagina Web&lt;/title&gt;
+   &lt;style&gt;
+      h1{
+        color: blue; 
+        text-align:center;
+      }
+      p{
+        color: blue; 
+        text-align:right; 
+        background-color:lightgreen;
+      }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  
+    &lt;h1&gt;Poema&lt;/h1&gt;
+    &lt;p&gt;O tempo &eacute;:&lt;/p&gt;
+    &lt;p&gt;Lento para os que esperam&lt;/p&gt;
+    &lt;p&gt;R&aacute;pido para os que tem medo&lt;/p&gt;
+    &lt;p&gt;Longo para os que lamentam&lt;/p&gt;
+    &lt;p&gt;Curto para os que festejam&lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card activity">
+        <div class="card-body">
+          <h3>Exemplo 2 - CSS externo</h3>
+          <p>
+            <strong>Enunciado:</strong> refazer a p&aacute;gina do poema separando a
+            formata&ccedil;&atilde;o visual em um arquivo CSS externo chamado
+            <code>estilo.css</code>.
+          </p>
+          <div class="actions">
+            <a class="button" href="codigos/exemplo2/index.html" target="_blank" rel="noopener">Abrir atividade</a>
+            <a class="button secondary" href="codigos/exemplo2/estilo.css" target="_blank" rel="noopener">Ver CSS</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="preview">
+            <iframe title="Previa do Exemplo 2" src="codigos/exemplo2/index.html"></iframe>
+          </div>
+        </div>
+        <div class="card-body code-group">
+          <div>
+            <span class="code-title">HTML</span>
+            <pre><code>&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+   &lt;title&gt;Minha pagina Web&lt;/title&gt;
+   &lt;link rel="stylesheet" href="estilo.css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  
+    &lt;h1&gt;Poema&lt;/h1&gt;
+    &lt;p&gt;O tempo &eacute;:&lt;/p&gt;
+    &lt;p&gt;Lento para os que esperam&lt;/p&gt;
+    &lt;p&gt;R&aacute;pido para os que tem medo&lt;/p&gt;
+    &lt;p&gt;Longo para os que lamentam&lt;/p&gt;
+    &lt;p&gt;Curto para os que festejam&lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+          </div>
+          <div>
+            <span class="code-title">CSS</span>
+            <pre><code>h1{
+  color: blue; 
+  text-align:center;
+}
+p{
+  color: blue; 
+  text-align:right; 
+  background-color:lightgreen;
+}</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card activity">
+        <div class="card-body">
+          <h3>Exemplo IFPI - Imagem e estilo</h3>
+          <p>
+            <strong>Enunciado:</strong> construir uma pagina sobre o IFPI Campus
+            Campo Maior usando t&iacute;tulo, imagem, par&aacute;grafos e regras CSS externas.
+          </p>
+          <div class="actions">
+            <a class="button" href="codigos/exemplo3-ifpi/index.html" target="_blank" rel="noopener">Abrir atividade</a>
+            <a class="button secondary" href="codigos/exemplo3-ifpi/estilo.css" target="_blank" rel="noopener">Ver CSS</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="preview">
+            <iframe title="Previa do Exemplo IFPI" src="codigos/exemplo3-ifpi/index.html"></iframe>
+          </div>
+        </div>
+        <div class="card-body code-group">
+          <div>
+            <span class="code-title">HTML</span>
+            <pre><code>&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+   &lt;title&gt;IFPI Campo Maior&lt;/title&gt;
+   &lt;link rel="stylesheet" href="estilo.css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  
+    &lt;h1&gt;IFPI - Instituto Federal do Piau&iacute;&lt;/h1&gt;
+    &lt;p&gt;
+        &lt;img src="ifpiLogo.png" width="40%" height="30%"&gt;
+    &lt;/p&gt;
+
+    &lt;p style="text-align:left; color: red;"&gt;
+        O Instituto Federal do Piau&iacute; &eacute; uma institui&ccedil;&atilde;o de grande relev&acirc;ncia na
+        promo&ccedil;&atilde;o da educa&ccedil;&atilde;o de qualidade para todas as regi&otilde;es do estado do 
+        Piau&iacute;.
+    &lt;/p&gt;
+
+    &lt;p style="text-align:right;"&gt;
+       IFPI Campus Campo Maior.     
+    &lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+          </div>
+          <div>
+            <span class="code-title">CSS</span>
+            <pre><code>h1{
+  color: green;
+  text-align:center;
+  font-family: 'Arial';
+}
+
+p{
+  text-align:center;
+  border: 1px solid black;
+  background-color: powderblue;
+  font-family: 'Arial';  
+}</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section aria-labelledby="desafio">
+      <h2 class="section-title" id="desafio">Quest&atilde;o para Fazer</h2>
+      <article class="card challenge">
+        <div class="card-body">
+          <h3>Desafio da aula</h3>
+          <p>
+            Construir, usando HTML e CSS, a interface web representada na imagem
+            <code>questao-para-fazer.png</code>.
+          </p>
+          <div class="actions">
+            <a class="button" href="codigos/questao-para-fazer.png" target="_blank" rel="noopener">Abrir imagem</a>
+          </div>
+          <div class="note">
+            Use a imagem como refer&ecirc;ncia visual para organizar estrutura HTML,
+            cores, espa&ccedil;amentos, textos e estilos.
+          </div>
+        </div>
+        <div class="card-body">
+          <img src="codigos/questao-para-fazer.png" alt="Imagem da questao para fazer em HTML e CSS">
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Material organizado para a aula de Programa&ccedil;&atilde;o para Web Front.
+    </footer>
+  </main>
+</body>
+</html>
