@@ -1,0 +1,12 @@
+h1{
+  color: green;
+  text-align:center;
+  font-family: 'Arial';
+}
+
+p{
+  text-align:center;
+  border: 1px solid black;
+  background-color: powderblue;
+  font-family: 'Arial';  
+}
